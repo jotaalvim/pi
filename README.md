@@ -1,2 +1,2 @@
 # pi
-Vamos aprender c com vontade 
+Vamos aprender c com bel-prazer
