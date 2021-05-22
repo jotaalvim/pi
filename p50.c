@@ -485,16 +485,21 @@ void p26 (int v[], int n, int x) {//insere
 }
 
 ///////////////////////////////////////////////////////
-void p27 (int r [], int a[], int b[], int na, int nb){//merge
-    int ia = 0, ib = 0, c = 0;
-    while (c < na + nb) {
-        if (ib == nb || a[ia] <= b[ib]) {
-            *(r++) = a[ia++];
+void p27 (int r [], int a[], int b[], int na, int nb){
+        int ia = 0, ib = 0;
+    while (na + nb > 0) {
+        if (nb == 0 || (a[ia] < b[ib]  &&  na != 0)) {
+            *(r++) = a[ia++]; na--;
         }
-        if (ia == na || b[ib] <= a[ia]) {
-            *(r++) = b[ib++];
+        else
+        if ( na == 0 || (b[ib] < a[ia] &&  nb != 0)) {
+            *(r++) = b[ib++]; nb--;
         }
-    } 
+        else
+        if (a[ia] == b[ib] &&  na != 0 && nb != 0 ) {
+            *(r++) = a[ia++]; na--;
+        }
+    }
 }
 //FIXME
 
@@ -573,8 +578,7 @@ int pertence( int v[], int n, int x) {
     }
     return 0;
 }
-
-
+// 1 2 3 4 4 5 
 int p33 (int v[], int n) {//elimRep
     int a = 0, f = 0, c = 0;
     while (f < n ) {
@@ -587,6 +591,13 @@ int p33 (int v[], int n) {//elimRep
         }
     }
     return f-a;
+}
+
+///////////////////////////////////////////////////////
+int p34 (int f[], int n) {//elimRepOrd
+    int * a;
+
+    return n;
 }
 
 ///////////////////////////////////////////////////////
