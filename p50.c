@@ -595,9 +595,62 @@ int p33 (int v[], int n) {//elimRep
 
 ///////////////////////////////////////////////////////
 int p34 (int f[], int n) {//elimRepOrd
-    int * a;
+    int *a = v, c = 1;
+    for ( v++ ; n > 1; n--, v++) {
+        if (*a != *v) {
+            *(++a) = *v;
+            c++;
+        }
+    }
+    return c;
+}
 
-    return n;
+///////////////////////////////////////////////////////
+int p35 (int a[], int na, int b[], int nb) { //comunsOr
+    int c = 0;
+    //while (na > 0 && nb > 0) {
+    //    if (*a == *b)  {
+    //        c++;
+    //        a++;
+    //        b++;
+    //        na--;
+    //        nb--;
+    //    }
+    //    if (*a > *b) { b++; nb--; }
+    //    if (*b > *a) { a++; na--; }
+    //}
+    //return c;
+    for ( na--, nb--; na >= 0 && nb >= 0; ) {
+        if ( a[na] == b[nb] ) {
+            na--;
+            nb--;
+            c++;
+        }
+        if (a[na] > b[nb]) na--;
+        if (b[nb] > a[na]) nb--;
+    }
+    return c;
+}
+
+///////////////////////////////////////////////////////
+int p36 (int a[], int na, int b[], int nb) { //comuns
+    int i, c = 0;
+    for(i = 0; na > 0; na--) {
+        c += pertence(a, na, *a);
+        a++;
+    }
+    return c;
+}//FIXME
+//int pertence( int v[], int n, int x) {
+
+///////////////////////////////////////////////////////
+int p37 (int v[], int n){ //minInd
+    int i = 0;//menor indice até ao momento
+    int m = *v;//menor valor até ao momento
+    for ( v++; n > 0; n--) {
+        
+    }
+    return i;
 }
 
 ///////////////////////////////////////////////////////
