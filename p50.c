@@ -332,7 +332,7 @@ int p16 (char t[]) {//difConsecutivos
     }
     return max;
 }
-//FIXME NAO FUNCIONA NA BB
+//FIXME NAO FUNCIONA NA CB
 
 ////////////////////////////////////////////////////////
 int p17_aux (char s1[], char s2[], int n) {
@@ -635,22 +635,186 @@ int p35 (int a[], int na, int b[], int nb) { //comunsOr
 ///////////////////////////////////////////////////////
 int p36 (int a[], int na, int b[], int nb) { //comuns
     int i, c = 0;
-    for(i = 0; na > 0; na--) {
-        c += pertence(a, na, *a);
-        a++;
+    for(i = 0; i < na ; i++) {
+        c += pertence(b, nb, a[i]);
     }
     return c;
-}//FIXME
-//int pertence( int v[], int n, int x) {
+}
 
 ///////////////////////////////////////////////////////
 int p37 (int v[], int n){ //minInd
-    int i = 0;//menor indice até ao momento
+    int i, im = 0;//menor indice até ao momento
     int m = *v;//menor valor até ao momento
-    for ( v++; n > 0; n--) {
-        
+    for (i = 0; n > i ; i++) {
+        if ( v[i] < m ) {
+            m = v[i];
+            im = i;
+        } 
     }
-    return i;
+    return im;
+}
+
+///////////////////////////////////////////////////////
+void p38 (int v[], int ac [], int n) { //somasAc
+    int i;
+    *ac = *v;
+    for (i = 1; i < n; i++) {
+        ac[i] = ac[i-1] + v[i];
+    }
+}
+
+///////////////////////////////////////////////////////
+int p39 (int n, float m [n][n]) { //triSup
+    int i, j;
+    for (i = 0; i < n; i++){
+        for (j = 0; j < n; j++) {
+           if ( j < i && m[i][j] != 0) return 0;
+        }
+    }
+    return 1;
+}
+
+///////////////////////////////////////////////////////
+void p40 (int n, float m [n][n]) { //transposta
+    int i,j,aux;
+    for (i = 0; i < n; i++) {
+        for (j = i; j < n; j++) {
+            aux= m[i][j];	
+			m[i][j] = m[j][i];
+			m[j][i] = aux;	
+        }
+    } 
+}
+
+///////////////////////////////////////////////////////
+void p41 (int n, int m, int a[n][m], int b[n][m]) {//addTo
+    //for (n-- ; n >= 0; n--) {
+    //    for (m-- ; m >= 0; m--) { m-- não volta ao que estava, sai pela borda
+    //        a[n][m] += b[n][m];
+    //    }
+    //}    
+    int i,j;
+    for ( i = 0 ; i < n; i++) {
+        for ( j = 0 ; j < m; j++) {
+            a[i][j] += b[i][j];
+        }
+    }
+}
+
+///////////////////////////////////////////////////////
+int p42 (int n, int v1[n], int v2[n], int r[n]) {//unionSet
+    for ( ; n >= 0; n--) {
+        r[n] = v1[n] || v2[n];// r[n] = (v1[n] == 1 || v2[n] == 1) ? 1 : 0;
+    } // && implementação não estrita, porqueretorna o outro
+}
+
+///////////////////////////////////////////////////////
+int intersectSet (int n, int v1[n], int v2[n], int r[n]) {//p43
+    for ( ; n >= 0; n--) {
+        r[n] = v1[n] &&  v2[n];
+        //r[n] = (v1[n] == 1 && v2[n] == 1) ? 1 : 0;
+    }
+}
+
+///////////////////////////////////////////////////////
+int intersectMSet (int n, int v1[n], int v2[n], int r[n]) {//p44
+    for ( ; n >= 0; n--) {
+        r[n] = (v1[n] > v2[n] ) ? v2[n] : v1[n];
+    }
+}
+
+///////////////////////////////////////////////////////
+int unionMSet (int n, int v1[n], int v2[n], int r[n]) {//p45
+    for ( ; n >= 0; n--) {
+        r[n] = (v1[n] > v2[n] ) ? v1[n] : v2    [n];
+    }
+}
+
+///////////////////////////////////////////////////////
+int cardinalMSet (int n, int v[n]) { //p47
+    int c = 0;
+    for(n--; n >= 0; n--) {
+        c += v[n];
+    }    
+    return c;
+}
+
+
+///////////////////////////////////////////////////////
+typedef enum movimento {Norte, Oeste, Sul, Este} Movimento;
+
+typedef struct posicao {
+    int x, y;
+} Posicao;
+
+Posicao posFinal (Posicao inicial, Movimento mov[], int n) {//p47
+    for (n--; n >= 0; n--) {
+        switch (mov[n]) {
+            case Norte: inicial.y++;break;
+            case Sul  : inicial.y--;break;
+            case Este : inicial.x++;break;
+            case Oeste: inicial.x--;break;
+        }
+    }
+    return inicial;
+}
+
+///////////////////////////////////////////////////////
+int caminho (Posicao inicial, Posicao final, Movimento mov[], int n) {//p48
+    int c = 0;
+    for (; n > 0; n--) {
+        if (inicial.x > final.x ) { 
+            *mov = Oeste;
+            inicial.x--;
+        }
+        else
+        if (inicial.x < final.x ) {
+            *mov = Este;
+            inicial.x++;
+        }
+        else
+        if (inicial.y > final.y ) {
+            *mov = Sul;
+            inicial.y--;
+        }
+        else
+        if (inicial.y < final.y ) {
+            *mov = Norte;
+        inicial.y++;
+            
+        }
+        else c--;
+        c++;
+        mov++;
+    }
+    if (inicial.x == final.x && inicial.y == final.y) return c;
+    else 
+        return -1;
+}
+
+///////////////////////////////////////////////////////
+int maisCentral (Posicao pos[], int n) {//p49
+    int m = 0;
+    int d = pos[0].x*pos[0].x + pos[0].y*pos[0].y;
+    for (n--; n >= 0; n--) {
+        if(pos[n].x*pos[n].x + pos[n].y*pos[n].y < d) {
+            d = pos[n].x*pos[n].x + pos[n].y*pos[n].y;
+            m = n;
+        }
+    }
+    return m;
+}
+
+///////////////////////////////////////////////////////
+int vizinhos (Posicao p, Posicao pos[], int n){ //p50
+    int c = 0;
+    for (n--; n >= 0; n--) {
+        if (p.x == pos[n].x && p.y == pos[n].y +1) c++;
+		if (p.x == pos[n].x && p.y == pos[n].y -1) c++;
+		if (p.y == pos[n].y && p.x == pos[n].x +1) c++;
+		if (p.y == pos[n].y && p.x == pos[n].x -1) c++;
+    } 
+    return c;
 }
 
 ///////////////////////////////////////////////////////
