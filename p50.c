@@ -420,6 +420,15 @@ int p20 (char s[]) { //contaPal
 }
 //usar strtok
 
+int contaPal (char s[]) {
+	int i,acc = 0;
+	for (i = 0;s[i] != '\0';i++) {
+		if (s[i]!=' '&&s[i]!='\n'&&(s[i-1]==' '||s[i-1]=='\0')) acc++; // Esta parte vai ver se dps de uma letra ha um espaco;
+	}
+	return acc;
+}
+
+
 ///////////////////////////////////////////////////////
 int p21 (char s[]) {//contaVogais
     int n = 0;
@@ -621,10 +630,8 @@ int p35 (int a[], int na, int b[], int nb) { //comunsOr
     //}
     //return c;
     for ( na--, nb--; na >= 0 && nb >= 0; ) {
-        if ( a[na] == b[nb] ) {
-            na--;
-            nb--;
-            c++;
+    if ( a[na] == b[nb] ) {
+        na--; nb--; c++;
         }
         if (a[na] > b[nb]) na--;
         if (b[nb] > a[na]) nb--;

@@ -30,17 +30,55 @@ void freeL (LInt l) {//p2
 }
 
 void imprimeL (LInt l) {//p3
-    if (!l) return;
-    while (l->prox) {
+    //if (!l) return;
+    //while (l->prox) {
+    //    printf("%d\n",l->valor);
+    //    l = l->prox;
+    //}
+    while(l) {//!=NULL
         printf("%d\n",l->valor);
         l = l->prox;
     }
 }
 
 LInt reverseL (LInt l) {//p4
-    if(!l) return NULL;
-    while( l->prox) {
-        
-    }
+    if(!l) return l;
+    LInt ant = NULL;// anterior
+    LInt a = l; // princiap
+    while ( a != NULL) {
+        LInt x = a->prox;//seguinte
+        a->prox = ant;
+        ant = a;
+        a = x;
+    } 
+    return ant;
 }
+
+
+void insertOrd (LInt * l, int x) { //p5
+    LInt nova;
+    nova = (LInt) malloc(sizeof(struct lligada));
+    nova->valor = x;
+    while( *l != NULL && (*l)->valor <= x) {
+        l = &((*l)->prox) ;
+    }   
+    nova->prox = *l;
+    *l = nova;
+}
+
+
+
+
+
+
+
+void removeMaiorA (ABin *a) {
+
+    if (*a == NULL) return;
+    while ((*a)->dir != NULL) {
+        a = &((*a)->dir);
+    }
+    *a = (*a)->esq;
+} 
+
 
