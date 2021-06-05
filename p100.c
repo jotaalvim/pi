@@ -67,13 +67,57 @@ void insertOrd (LInt * l, int x) { //p5
 }
 
 
+int removeOneOrd (LInt *l, int x) { //p6
+    int r = 1;
+    LInt aux;
+    while(*l != NULL && (*l)->valor != x) 
+        l = &((*l)->prox);
+    if ((*l)!= NULL) {
+        aux = *l;
+        (*l) = (*l)->prox;
+        free(aux);
+        r = 0;
+    }
+    return r;
+}
+int removeOneOrd (LInt * lista, int x) {
+    LInt ant, atual;
+    atual = *lista;
+    if (atual == NULL)
+        return 1;
+    if (atual->valor == x) {
+        *lista = NULL;
+        return 0;
+    }
+    while (atual->prox != NULL) {
+        ant = atual;
+        atual = atual->prox;
+        if (atual->valor == x) {
+            ant->prox = atual->prox;
+            return 0;
+        }
+    }
+    return 1;
+}
+ 
 
+void merge(LInt* r, LInt a, LInt b) {//p7
+    if(!a && !b) return;
+    if(b == NULL || a != NULL && a->valor < b->valor) {
+        (*r) = a;
+        merge(&((*r)->prox),a->prox,b);
+    }
+    else {
+        (*r) = b;
+        merge(&((*r)->prox),a,b->prox);
+    }
+}
 
-
+void splitQS (LInt l, int x, LInt *mx, LInt *Mx) { //p8 
 
 
 void removeMaiorA (ABin *a) {
-
+    
     if (*a == NULL) return;
     while ((*a)->dir != NULL) {
         a = &((*a)->dir);
