@@ -71,37 +71,37 @@ int pmaior ( int v[], int i, int n) {
     return v[i] > v[p] ? i : p; 
 }
 
-//int moda(int v[], int n, int *m) {
-//    int freq[n] = {0}; 
-//    int valores[n] = {0};  
-//    int iv = 0;
-//
-//    bubbleSort (v,n);
-//
-//    for ( int i = 1; i < n ;i++) {
-//        if ( v[i] == v[i-1] ) {
-//            freq[iv]++;
-//        }
-//        else {
-//            valores[iv] = v[i-1];
-//            freq[iv]++;
-//            iv++;
-//        }
-//    }
-//    int ff = pmaior (freq,iv);
-//    int aux = freq[ff];
-//    freq [ff] = 0;
-//    int ff2 = pmaior (freq,iv);
-//    if (aux == freq[ff2]) {
-//        *m = valores[ff];
-//        return 0;
-//    }
-//    else {
-//        *m = valores[ff];
-//        return freq[ff];
-//    }
-//}
-//
+int moda(int v[], int n, int *m) {
+    int freq[n] = {0}; 
+    int valores[n] = {0};  
+    int iv = 0;
+
+    bubbleSort (v,n);
+
+    for ( int i = 1; i < n ;i++) {
+        if ( v[i] == v[i-1] ) {
+            freq[iv]++;
+        }
+        else {
+            valores[iv] = v[i-1];
+            freq[iv]++;
+            iv++;
+        }
+    }
+    int ff = pmaior (freq,iv);
+    int aux = freq[ff];
+    freq [ff] = 0;
+    int ff2 = pmaior (freq,iv);
+    if (aux == freq[ff2]) {
+        *m = valores[ff];
+        return 0;
+    }
+    else {
+        *m = valores[ff];
+        return freq[ff];
+    }
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //   3
 
