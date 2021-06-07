@@ -101,7 +101,25 @@ int removeOneOrd (LInt * lista, int x) {
 }
  
 
-void merge(LInt* r, LInt a, LInt b) {//p7
+void merge (LInt *r, LInt l1, LInt l2){ //p7
+    LInt aux ;//= *r;
+    if (l1 == NULL) aux = l2;
+    else
+    if (l2 == NULL) aux = l1;
+    else
+    if (l1->valor < l2->valor) {
+        aux = l1;
+        merge (&(aux->prox), l1->prox, l2);
+    }
+    else
+    if (l1->valor >= l2->valor) {
+        aux = l2;
+        merge (&(aux->prox), l1, l2->prox);
+    }
+    //r = &aux;  muda o valor cá dentro
+    *r = aux;
+}
+void merge2(LInt* r, LInt a, LInt b) {//p7
     if(!a && !b) return;
     if(b == NULL || a != NULL && a->valor < b->valor) {
         (*r) = a;
@@ -113,10 +131,70 @@ void merge(LInt* r, LInt a, LInt b) {//p7
     }
 }
 
-void splitQS (LInt l, int x, LInt *mx, LInt *Mx) { //p8 
+void splitQS (LInt l, int x, LInt *mx, LInt *Mx){//p8
+    LInt meno;
+    LInt maio;
+    if (l == NULL) {
+        maio = NULL;
+        meno = NULL;
+    }
+    else
+    if (l->valor < x) {
+        meno = l;
+        splitQS (l->prox , x, &(meno->prox), &(maio));
+    }
+    else
+    if (l->valor >= x) {
+        maio = l;
+        splitQS (l->prox , x, &(meno), &(maio->prox));
+    }
+    *Mx = maio;
+    *mx = meno;
+}
+
+int conta (LInt l) {
+    if (l != NULL) return 1 + conta (l->prox);
+    else return 0;
+}
+
+LInt parteAmeio (LInt *l){//p9
+    LInt l1 = *l, l2;
+    LInt aux = *l;
+    int t1 = conta (aux)/2 , i;
+    if (t1 == 0) {
+        l1 = NULL;
+        l2 = aux;
+    }
+    else {
+        for ( i = 1; i < t1; i++) {
+            aux = aux->prox;
+        }
+        l2 = aux->prox;
+        aux->prox = NULL;
+        *l = l2; 
+    }
+    return l1;
+}
 
 
-void removeMaiorA (ABin *a) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void removeMaiorA (ABin *a) {//p48
     
     if (*a == NULL) return;
     while ((*a)->dir != NULL) {
