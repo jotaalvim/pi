@@ -155,10 +155,12 @@ char *p8(char *s1, char s2[]) { // s2 > source
 ///////////////////////////////////////////////////////
 int p9 (char s1[], char s2[]){// strcmp
     int i=0;
-    while  (s1[i] - s2[i] == 0) {
+    //while  (s1[i] - s2[i] == 0) {
+    //    if (s1[i] =='\0') return 0;
+    //    i++;
+    //}
+    for (int i = 0; s1[i] - s2[i] == 0; i++)
         if (s1[i] =='\0') return 0;
-        i++;
-    }
     return (s1[i] - s2[i]);
 }
 

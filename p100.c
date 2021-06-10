@@ -131,6 +131,16 @@ int removeOneOrd (LInt * lista, int x) {
     }
     return 1;
 }
+int removeOneOrd (LInt *l, int x){
+    LInt aux = *l;
+    if ( aux == NULL) return 1;
+    if ( aux->valor > x) return 1;
+    if ( aux->valor ==x) {
+        *l = aux->prox;
+        return 0;
+    }
+    return removeOneOrd(&(aux->prox),x);
+}
  
 
 void merge (LInt *r, LInt l1, LInt l2){ //p7
@@ -314,6 +324,62 @@ void concatL (LInt *a, LInt b){//p15
 }
 
 LInt cloneL (LInt l) {//p16
+    if (l = NULL) return NULL;
+    LInt cauda = cloneL(l->prox);
+    return newLInt (l->valor, cauda);
+}
+
+LInt nova (LInt l,LInt n) {
+    if (l == NULL) return n;
+    return nova ( l->prox,  newLInt(l->valor,n));
+}
+LInt cloneRev (LInt l) {//p17
+    LInt n = NULL;
+    return nova(l,n);
+}
+
+int maximo (LInt l){//p18
+    if (l == NULL) return -999999999;
+    int c = maximo (l->prox);
+    return l->valor > c ? l->valor : c;
+}
+int maximo2(LInt l) {
+    int m = l->valor;
+    while (l != NULL) {
+        m = l->valor > m ? l->valor : m;
+        l = l->prox; 
+    }
+    return m;
+}
+
+int take (int n, LInt *l){//p19
+    LInt aux = *l;
+    int c = 1;
+    if (aux == NULL || n == 0) {
+        return 0;
+        *l = NULL;
+    }
+    while (aux->prox != NULL && c < n) {
+        c++;
+        aux = aux->prox;
+    }
+    freeL(aux->prox);
+    aux->prox = NULL;
+    return c;
+}
+
+LInt NForward (LInt l, int n){//p20
+    if (n == 0 ) return l;
+    return NForward(l->prox,n-1);
+}
+
+
+
+void inorder (ABin a, LInt * l) {//p31
+    if (a == NULL) return;
+    inorder (a->dir,l);
+    *l = novaL(a->valor, *l); 
+    inorder (a->esq, l );
 }
 
 int depth (ABin a, int x) {//p34
@@ -327,13 +393,6 @@ int depth (ABin a, int x) {//p34
     if ( e == -1 || d == -1) return e > d ? e + 1 : d + 1; 
     return e < d ? e + 1 : d + 1; 
 }
-
-
-
-
-
-
-
 
 
 int auxsoma (ABin a){
