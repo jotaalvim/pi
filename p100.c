@@ -65,6 +65,38 @@ void insertOrd (LInt * l, int x) { //p5
     nova->prox = *l;
     *l = nova;
 }
+void insertOrd2 (LInt *l, int x){
+    LInt aux = *l;
+    LInt nodo = newLInt (x,NULL);
+    if (aux == NULL || x < aux->valor) {
+        nodo->prox = aux;
+        *l = nodo;
+        return;
+    }
+    while (aux->prox != NULL && x >= aux->prox->valor ) {
+        aux = aux->prox;
+    }
+    nodo->prox = aux->prox;
+    aux->prox = nodo;
+}
+LInt newLInt (int v, LInt t){
+    LInt nova = (LInt) malloc (sizeof(struct lligada));
+    if ( nova != NULL) {
+        nova->valor = v;
+        nova->prox = t;
+    }
+    return nova;
+}
+LInt inseraux (LInt l, int x) {
+    if (l == NULL) return newLInt(x,NULL);
+    if ( x < l->valor) return newLInt(x,l);
+    l->prox = inseraux (l->prox,x);
+    return l;
+}
+void insertOrd3 (LInt *l, int x){
+    *l = inseraux (*l,x);
+}
+
 
 
 int removeOneOrd (LInt *l, int x) { //p6
@@ -102,7 +134,7 @@ int removeOneOrd (LInt * lista, int x) {
  
 
 void merge (LInt *r, LInt l1, LInt l2){ //p7
-    LInt aux ;//= *r;
+    LInt aux = *r;
     if (l1 == NULL) aux = l2;
     else
     if (l2 == NULL) aux = l1;
@@ -176,6 +208,125 @@ LInt parteAmeio (LInt *l){//p9
     return l1;
 }
 
+int removeAll (LInt *l, int x){
+    LInt aux = *l;
+    LInt final = *l;
+    int c = 0;
+    while (aux != NULL && aux->valor == x) {
+        aux = aux->prox;
+        c++;
+    }
+    final = aux;
+    while (aux != NULL && aux->prox != NULL) {
+        if (aux->prox->valor == x) {
+            c++;
+            aux->prox = aux->prox->prox;
+        }
+        else {
+            aux = aux->prox;
+        }
+    }
+    *l = final;
+    return c;
+}
+int removeAll2 (LInt *l, int x){
+    LInt final,aux;
+    int c = 0;
+    //adicionei um no aux no iníncio
+    struct lligada ini;
+    ini.prox = *l;
+    final = aux = &ini;
+
+    while (aux != NULL && aux->prox != NULL) {
+        if (aux->prox->valor == x) {
+            c++;
+            aux->prox = aux->prox->prox;
+        }
+        else aux = aux->prox;
+    }
+    *l = final->prox;
+    return c;
+}
+
+int removeDups (LInt *l){//p11
+    LInt aux = *l;
+    if (aux->prox == NULL) return 0;
+    removeAll(&(aux->prox), aux->valor);
+    aux = aux->prox;
+    return 1 + removeDups(&(aux));
+}
+
+int maior (LInt *l,int x) {
+    LInt aux = *l;
+    if (aux == NULL) return x;
+    x = x > aux->valor ? x : aux->valor;
+    return maior (&(aux->prox),x);
+    
+}
+int removeMaiorL (LInt *l){//p12
+    LInt aux = *l;
+    int c = maior (l,aux->valor );
+    while (aux->prox != NULL) {
+        if (aux->prox->valor == c) {
+            aux->prox = aux->prox->prox;
+            break;
+        }
+        aux = aux->prox; 
+    } 
+    return c;
+}
+
+LInt tira (LInt l) {
+    if (l->prox == NULL) {
+        free(l);
+        return NULL;
+    }
+    l->prox = tira(l->prox);
+    return l;
+}
+void init (LInt *l){ //p13
+    *l = tira(*l);
+}
+
+LInt poe (LInt l, int x){
+    if (l == NULL) {
+        LInt novo = malloc(sizeof(struct lligada));
+        novo->valor = x;
+        novo->prox = NULL;
+        return novo;
+    }
+    l->prox = poe(l->prox,x);
+    return l;
+}
+void appendL (LInt *l, int x){//p14
+    *l = poe(*l,x);
+}
+
+void concatL (LInt *a, LInt b){//p15
+    LInt aux = *a;
+    if (aux == NULL) *a = b;
+    else {
+        while (aux->prox != NULL){
+            aux = aux->prox;
+        }
+        aux->prox = b;
+    }
+}
+
+LInt cloneL (LInt l) {//p16
+}
+
+int depth (ABin a, int x) {//p34
+    if (a == NULL)     return -1;
+    if (a->valor == x) return 1;
+    
+    int e = depth(a->esq,x);
+    int d = depth(a->dir,x);
+    
+    if ( e == -1 && d == -1) return -1; 
+    if ( e == -1 || d == -1) return e > d ? e + 1 : d + 1; 
+    return e < d ? e + 1 : d + 1; 
+}
 
 
 
@@ -185,14 +336,22 @@ LInt parteAmeio (LInt *l){//p9
 
 
 
-
-
-
-
-
-
-
-
+int auxsoma (ABin a){
+    if (a == NULL) return 0;
+    return a->valor + auxsoma(a->esq) + auxsoma(a->dir);
+}
+ABin somasAcA (ABin a) { //p41
+    ABin nova = (ABin) malloc(sizeof(struct nodo));
+    int c = 0;
+    if (a == NULL) return NULL;
+    else {
+        c += auxsoma(a);
+        nova->valor = c;
+        nova->esq = somasAcA(a->esq);
+        nova->dir = somasAcA(a->dir);
+    }
+    return nova;
+}
 
 void removeMaiorA (ABin *a) {//p48
     
