@@ -18,6 +18,10 @@ int length (LInt l) {//p1
     //}
     return c;
 }
+int lenght2(LInt l){
+    if (l == NULL) return 0;
+    return 1 + length(l->prox);
+}
 
 void freeL (LInt l) {//p2
     LInt l2;
@@ -79,6 +83,13 @@ void insertOrd2 (LInt *l, int x){
     nodo->prox = aux->prox;
     aux->prox = nodo;
 }
+void insertOrd3( LInt *l, int x){
+    if ((*l) = NULL) return (*l) = newLInt(x,NULL);
+    if ((*l)->prox != NULL && x > (*l)->prox ) {
+        (*l)->prox = newLInt(x,(*l)->prox);
+    }   
+}
+
 LInt newLInt (int v, LInt t){
     LInt nova = (LInt) malloc (sizeof(struct lligada));
     if ( nova != NULL) {
@@ -373,6 +384,28 @@ LInt NForward (LInt l, int n){//p20
     return NForward(l->prox,n-1);
 }
 
+/////////FIXME testar a partir da qui
+
+
+int listToArray (LInt l, int v[], int n) {
+    int c = 0;
+    while (l->prox != NULL && c < n) {
+        v[c] = l->valor;
+        c++; 
+        l = l->prox;
+    }
+    return c;
+}
+int listToArray2 (LInt l, int v[], int n) {
+    if ( n == 0) return 0;
+    *v = l->valor;
+    return listToArray2( l->prox, v+1,n-1);
+}
+
+
+
+//////////////////////////////////////////////////////////
+
 
 
 void inorder (ABin a, LInt * l) {//p31
@@ -385,13 +418,26 @@ void inorder (ABin a, LInt * l) {//p31
 int depth (ABin a, int x) {//p34
     if (a == NULL)     return -1;
     if (a->valor == x) return 1;
-    
+     
     int e = depth(a->esq,x);
     int d = depth(a->dir,x);
     
     if ( e == -1 && d == -1) return -1; 
     if ( e == -1 || d == -1) return e > d ? e + 1 : d + 1; 
     return e < d ? e + 1 : d + 1; 
+}
+
+int nivelV (ABin a, int n, int v[]) {//p39
+    if (a == NULL) return 0;
+    if (n == 1) { // estou no nível
+        v [0] = a->valor;
+        return 1;
+    }
+    else {
+        int esq = nivelV(a->esq, n-1,v);
+        int dir = nivelV(a->dir, n-1,v+esq);
+        return esq+dir;
+    }
 }
 
 
